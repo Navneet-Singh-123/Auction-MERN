@@ -17,6 +17,9 @@ const Navbar = ({ title}) => {
     <Fragment>
       <li>Hello {user && user.name}</li>
       <li>
+        <Link to="/create" style={{paddingLeft: "2em", paddingRight: "0.5em"}}>Create</Link>
+      </li>
+      <li>
         <a onClick={onLogout} href="#!">
           <i className="fas fa-sign-out-alt"></i>
           <span className="hide-sm">Logout</span>
@@ -37,9 +40,11 @@ const Navbar = ({ title}) => {
   );
     return (
     <div className="navbar bg-primary">
+      <Link to="/">     
       <h1>
         {title}
       </h1>
+      </Link>
       <ul>{isAuthenticated ? authLinks : guestLinks}</ul>
     </div>
     )
