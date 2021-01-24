@@ -41,7 +41,7 @@ const CreateProduct = () => {
             },
           };
         try {
-            const savedProduct = axios.post("/api/products", {name, sellerName, basePrice, deadline}, config);
+            const savedProduct = axios.post("/api/products", {name, sellerName, basePrice, deadline, sellerId: user._id}, config);
             setAlert("Product is saved successfully", "success");
             console.log(savedProduct);
         }catch(err){
@@ -53,15 +53,15 @@ const CreateProduct = () => {
         <form onSubmit={clickSubmit}>
             <div className="form-group">
                 <label className="text-muted">Name</label>
-                <input type="text" className="form-control" value={name} onChange={handleChange('name')}/>
+                <input type="text" className="form-control" value={name} onChange={handleChange('name')} required/>
             </div>
             <div className="form-group">
                 <label className="text-muted">Deadline</label>
-                <input type="date" className="form-control" value={deadline} onChange={handleChange('deadline')}/>
+                <input type="date" className="form-control" value={deadline} onChange={handleChange('deadline')}  required/>
             </div>
             <div className="form-group">
                 <label className="text-muted">Base Price</label>
-                <input type="Number" className="form-control" value={basePrice} onChange={handleChange('basePrice')}/>
+                <input type="Number" className="form-control" value={basePrice} onChange={handleChange('basePrice')} required/>
             </div>
             <button className="btn btn-outline-primary">Create Product</button>
         </form>

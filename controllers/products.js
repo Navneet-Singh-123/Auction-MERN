@@ -8,7 +8,8 @@ exports.CreateProduct =async (req, res) =>{
     name: req.body.name, 
     sellerName: req.body.sellerName, 
     deadline: req.body.deadline, 
-    basePrice: req.body.basePrice
+    basePrice: req.body.basePrice,
+    sellerId: req.body.sellerId
    })
    try{
     const savedProduct = await product.save();
@@ -25,7 +26,6 @@ exports.CreateProduct =async (req, res) =>{
 
 exports.list = (req, res)=>{
     Product.find()
-        .select("-photo")
         .exec((err, products)=>{
             if(err){
                 return res.status(400).json({
@@ -55,4 +55,30 @@ exports.photo = (req, res, next)=>{
         return res.send(req.product.photo.data)
     }
     next();
+}
+
+exports.update = async (req, res) => {
+    const {curBidVal, userName} = req.body;
+    const productFields = {};
+    if(curBidVal){
+        productFields.biddingPrice = curBidVal;
+    }
+    if(userName){
+        productFields.buyerName = userName;
+    }
+    try{
+        let product = await Product.findById(req.params.id);
+        if (!product) 
+            return res.status(404).json({ msg: "Product not found" });
+        product = await Product.findByIdAndUpdate(
+            req.params.id,
+            { $set: productFields },
+            { new: true }
+        );
+        res.json(product);
+    }
+    catch(err){
+        console.error(err.message);
+        res.status(500).send("Server error");
+    }
 }
