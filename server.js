@@ -3,6 +3,7 @@ const connectDB = require("./config/db");
 const app = express();
 const cors = require('cors');
 const bodyParser = require('body-parser');
+const path = require('path');
 
 // Connnect Database
 connectDB();
@@ -17,6 +18,14 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use('/api/users', require('./routes/user'));
 app.use('/api/auth', require('./routes/auth'));
 app.use('/api/products', require('./routes/products'));
+
+// Serve static assets in production
+if (process.env.NODE_ENV === "production") {
+    app.use(express.static("client/build"));  
+    app.get("*", (req, res) =>
+      res.sendFile(path.resolve(__dirname, "client", "build", "index.html"))
+    );
+  }
 
 const PORT = process.env.PORT || 5000;
 
