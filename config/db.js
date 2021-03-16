@@ -1,7 +1,9 @@
+// Acquiring Essentials Modules
 const mongoose = require("mongoose");
 const config = require("config");
 const db = config.get("mongoURI");
 
+//Connecting to the Database:
 const connectDB = async () => {
     // Connect the mongodb database to the project
     try {
